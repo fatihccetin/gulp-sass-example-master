@@ -6,22 +6,21 @@ const del = require("del");
 
 gulp.task("scss", () => {
   return gulp
-    .src("scss/main.scss")
+    .src("scss/style.scss")
     .pipe(sass().on("error", sass.logError))
-    .pipe(gulp.dest("./public/css/"));
+    .pipe(gulp.dest("./css/"));
 });
 
 gulp.task("clean", () => {
-  return del(["./public/css/main.css","./public/css/main.min.css"]);
+  return del(["./css/style.css","./css/style.min.css"]);
 });
-
 gulp.task("minify-css",() => {
   return gulp
-    .src("./public/css/main.css")
+    .src("./css/style.css")
     .pipe(
       cleancss({ debug: true }, (details) => {
         console.log(`${details.name}: ${details.stats.originalSize}`);
-        console.log('/main.min.css: ' + `${details.stats.minifiedSize}`);
+        console.log('/style.min.css: ' + `${details.stats.minifiedSize}`);
       })
     )
     .pipe(
@@ -29,11 +28,11 @@ gulp.task("minify-css",() => {
         suffix: ".min",
       })
     )
-    .pipe(gulp.dest("./public/css/"));
+    .pipe(gulp.dest("./css/"));
 });
 
 gulp.task("watch", () => {
-  gulp.watch("scss/main.scss", (done) => {
+  gulp.watch("scss/style.scss", (done) => {
     gulp.series(["clean", "scss","minify-css"])(done);
   });
 });
